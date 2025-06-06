@@ -28,4 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('motoristas', \App\Http\Controllers\MotoristaController::class);
     Route::apiResource('veiculos', \App\Http\Controllers\VeiculoController::class);
+
+    Route::apiResource('manutencoes', \App\Http\Controllers\ManutencaoController::class);
+    Route::get('veiculos/{veiculo}/manutencoes', [\App\Http\Controllers\ManutencaoController::class, 'porVeiculo']);
 });

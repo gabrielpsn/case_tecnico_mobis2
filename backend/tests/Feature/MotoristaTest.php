@@ -33,14 +33,17 @@ class MotoristaTest extends TestCase
 
     public function test_listar_motoristas()
     {
-        // Criar 3 motoristas
-        $motoristas = Motorista::factory()->count(3)->create();
+        // Limpa todos os motoristas existentes
+        \App\Models\Motorista::query()->delete();
+
+        // Cria exatamente 3 motoristas
+        $motoristas = \App\Models\Motorista::factory()->count(3)->create();
 
         $response = $this->withHeaders($this->getAuthHeaders())
             ->getJson('/api/motoristas');
 
         $response->assertStatus(200)
-            ->assertJsonCount(3); // Removido o 'data' do assertJsonCount
+            ->assertJsonCount(3);
     }
 
     public function test_criar_motorista()
@@ -55,11 +58,6 @@ class MotoristaTest extends TestCase
 
         $response = $this->withHeaders($this->getAuthHeaders())
             ->postJson('/api/motoristas', $dados);
-
-        // Adicione esta linha para ver o erro de validação
-        if ($response->status() === 422) {
-            dd($response->json());
-        }
 
         $response->assertStatus(201)
             ->assertJson($dados);
@@ -92,9 +90,9 @@ class MotoristaTest extends TestCase
         $dadosAtualizados = [
             'nome' => 'Nome Atualizado',
             'telefone' => '(11) 88888-8888',
-            'cpf' => '123.456.789-00', // Adicionei o CPF para garantir que está sendo validado
-            'data_nascimento' => '1990-01-01', // Adicionei a data de nascimento
-            'categoria_cnh' => 'B', // Adicionei a categoria da CNH
+            'cpf' => '123.456.789-00',
+            'data_nascimento' => '1990-01-01',
+            'categoria_cnh' => 'B',
         ];
 
         $response = $this->withHeaders($this->getAuthHeaders())
@@ -111,6 +109,7 @@ class MotoristaTest extends TestCase
 
     public function test_deletar_motorista()
     {
+
         $motorista = Motorista::factory()->create();
 
         $response = $this->withHeaders($this->getAuthHeaders())

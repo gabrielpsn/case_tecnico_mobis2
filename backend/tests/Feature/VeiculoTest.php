@@ -28,6 +28,13 @@ class VeiculoTest extends TestCase
 
     public function test_listar_veiculos()
     {
+        // Limpa todos os veículos existentes
+        \App\Models\Veiculo::query()->delete();
+
+        // Cria 10 veículos com motorista e 5 sem
+        \App\Models\Veiculo::factory()->count(10)->create();
+        \App\Models\Veiculo::factory()->count(5)->semMotorista()->create();
+
         $response = $this->withHeaders($this->getAuthHeaders())
             ->getJson('/api/veiculos');
 
