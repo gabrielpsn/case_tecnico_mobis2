@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\MotoristaRepositoryInterface;
+use App\Repositories\Contracts\VeiculoRepositoryInterface;
 use App\Repositories\Eloquent\MotoristaRepository;
+use App\Repositories\Eloquent\VeiculoRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             MotoristaRepositoryInterface::class,
             MotoristaRepository::class
+        );
+
+        $this->app->bind(
+            VeiculoRepositoryInterface::class,
+            VeiculoRepository::class
         );
     }
 
