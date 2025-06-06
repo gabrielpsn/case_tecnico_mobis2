@@ -25,4 +25,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::apiResource('motoristas', \App\Http\Controllers\MotoristaController::class);
 });
