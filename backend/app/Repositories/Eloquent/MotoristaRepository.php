@@ -35,7 +35,7 @@ class MotoristaRepository implements MotoristaRepositoryInterface
         $motorista = $this->find($id);
         $motorista->update($data);
 
-        return $motorista;
+        return $motorista->fresh();
     }
 
     public function delete(int $id): bool

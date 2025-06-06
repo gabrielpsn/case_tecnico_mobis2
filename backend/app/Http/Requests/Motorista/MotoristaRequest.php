@@ -17,13 +17,13 @@ class MotoristaRequest extends FormRequest
             'nome' => 'required|string|max:100',
             'cpf' => 'required|string|size:14|unique:motoristas,cpf',
             'data_nascimento' => 'required|date',
-            'categoria_cnh' => 'required|string|size:1|in:A,B,C,D,E,AB,AC,AD,AE',
+            'categoria_cnh' => 'required|string|min:1|max:2|in:A,B,C,D,E,AB,AC,AD,AE',
             'telefone' => 'required|string|max:20',
         ];
 
         if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
-            $motorista = $this->route('motorista');
-            $rules['cpf'] = 'required|string|size:14|unique:motoristas,cpf,'.$motorista;
+            $motoristaId = $this->route('motorista');
+            $rules['cpf'] = 'required|string|size:14|unique:motoristas,cpf,'.$motoristaId;
         }
 
         return $rules;

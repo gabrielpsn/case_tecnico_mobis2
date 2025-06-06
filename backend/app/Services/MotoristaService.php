@@ -33,7 +33,7 @@ class MotoristaService
         return $this->motoristaRepository->update($id, $data);
     }
 
-    public function deleteMotorista(int $id)
+    public function deleteMotorista(int $id): bool
     {
         return $this->motoristaRepository->delete($id);
     }
