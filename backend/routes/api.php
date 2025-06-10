@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 // Rotas públicas
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
+// Rotas protegidas
 Route::middleware('auth:sanctum')->group(function () {
-    // Rotas protegidas aqui
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
