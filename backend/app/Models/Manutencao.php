@@ -23,16 +23,11 @@ class Manutencao extends Model
     ];
 
     protected $casts = [
-        'data_manutencao' => 'date:Y-m-d', // Formato específico para a data
+        'data_manutencao' => 'date:d/m/Y',
         'km' => 'float',
         'custo' => 'float',
         'tipo' => TipoManutencao::class,
     ];
-
-    protected function serializeDate(\DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d');
-    }
 
     public function veiculo(): BelongsTo
     {

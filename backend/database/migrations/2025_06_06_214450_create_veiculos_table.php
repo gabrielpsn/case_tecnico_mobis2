@@ -20,6 +20,9 @@ return new class extends Migration
             $table->enum('status', ['disponivel', 'em_uso', 'manutencao'])->default('disponivel');
             $table->decimal('quilometragem', 10, 2);
             $table->foreignId('motorista_id')->nullable()->constrained('motoristas')->onDelete('set null');
+            $table->string('chassi', 17)->unique();
+            $table->string('cor', 50);
+            $table->string('observacoes', 255)->nullable();
             $table->timestamps();
         });
     }

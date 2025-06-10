@@ -21,6 +21,9 @@ class VeiculoRequest extends FormRequest
             'status' => 'required|in:disponivel,em_uso,manutencao',
             'quilometragem' => 'required|numeric|min:0',
             'motorista_id' => 'nullable|exists:motoristas,id',
+            'chassi' => 'required|string|size:17|unique:veiculos,chassi',
+            'cor' => 'required|string|max:50',
+            'observacoes' => 'nullable|string|max:255',
         ];
 
         if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
@@ -33,6 +36,9 @@ class VeiculoRequest extends FormRequest
                 'status' => 'sometimes|required|in:disponivel,em_uso,manutencao',
                 'quilometragem' => 'sometimes|required|numeric|min:0',
                 'motorista_id' => 'sometimes|nullable|exists:motoristas,id',
+                'chassi' => 'sometimes|required|string|size:17|unique:veiculos,chassi,'.$veiculoId,
+                'cor' => 'sometimes|required|string|max:50',
+                'observacoes' => 'sometimes|nullable|string|max:255',
             ];
         }
 

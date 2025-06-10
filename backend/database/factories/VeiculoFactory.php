@@ -19,7 +19,10 @@ class VeiculoFactory extends Factory
             'ano' => $this->faker->numberBetween(2000, date('Y')),
             'status' => $this->faker->randomElement(['disponivel', 'em_uso', 'manutencao']),
             'quilometragem' => $this->faker->randomFloat(2, 0, 200000),
-            'motorista_id' => Motorista::factory(),
+            'motorista_id' => Motorista::factory()->create()->id,
+            'chassi' => $this->faker->bothify('###########'),
+            'cor' => $this->faker->colorName,
+            'observacoes' => $this->faker->sentence,
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -21,8 +21,6 @@ class Motorista extends Model
         'validade_cnh',
     ];
 
-    protected $dates = ['data_nascimento'];
-
     protected $casts = [
         'data_nascimento' => 'date:d/m/Y',
         'validade_cnh' => 'date:d/m/Y',

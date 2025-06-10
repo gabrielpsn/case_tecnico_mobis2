@@ -7,7 +7,9 @@ import LoginPage from 'src/pages/LoginPage.vue'
 import NotFoundPage from 'src/pages/ErrorNotFound.vue'
 import UsuariosPage from 'src/pages/cadastros/usuario/UsuariosPage.vue'
 import VeiculoListPage from 'src/pages/cadastros/vaiculo/VeiculoListPage.vue'
-import ManutencaoPage from 'src/pages/cadastros/manutencao/ManutencaoListPage.vue'
+import VeiculoFormPage from 'src/pages/cadastros/vaiculo/VeiculoFormPage.vue'
+import ManutencaoListPage from 'src/pages/cadastros/manutencao/ManutencaoListPage.vue'
+import ManutencaoFormPage from 'src/pages/cadastros/manutencao/ManutencaoFormPage.vue'
 import MotoristaListPage from 'src/pages/cadastros/motorista/MotoristaListPage.vue'
 import TelemetryListPage from 'src/pages/cadastros/telemetry/TelemetryListPage.vue'
 import MotoristaFormPage from 'src/pages/cadastros/motorista/MotoristaFormPage.vue'
@@ -50,7 +52,7 @@ const routes = [
         children: [
           {
             path: 'usuarios',
-            name: 'usuario s',
+            name: 'usuarios',
             component: UsuariosPage,
             meta: {
               title: 'Usuários',
@@ -74,22 +76,86 @@ const routes = [
           {
             path: 'veiculos',
             name: 'veiculos',
-            component: VeiculoListPage,
+            redirect: { name: 'veiculos-list' },
             meta: {
               title: 'Veículos',
               icon: 'directions_car',
               requiresAuth: true,
             },
+            children: [
+              {
+                path: '',
+                name: 'veiculos-list',
+                component: VeiculoListPage,
+                meta: {
+                  title: 'Lista de Veículos',
+                  icon: 'directions_car',
+                  requiresAuth: true,
+                },
+              },
+              {
+                path: 'novo',
+                name: 'veiculos-novo',
+                component: VeiculoFormPage,
+                meta: {
+                  title: 'Novo Veículo',
+                  icon: 'add_circle_outline',
+                  requiresAuth: true,
+                },
+              },
+              {
+                path: 'editar/:id',
+                name: 'veiculos-editar',
+                component: VeiculoFormPage,
+                meta: {
+                  title: 'Editar Veículo',
+                  icon: 'edit',
+                  requiresAuth: true,
+                },
+              },
+            ],
           },
           {
             path: 'manutencao',
             name: 'manutencao',
-            component: ManutencaoPage,
+            redirect: { name: 'manutencao-list' },
             meta: {
               title: 'Histórico de Manutenção',
               icon: 'build',
               requiresAuth: true,
             },
+            children: [
+              {
+                path: '',
+                name: 'manutencao-list',
+                component: ManutencaoListPage,
+                meta: {
+                  title: 'Lista de Manutenções',
+                  icon: 'build',
+                  requiresAuth: true,
+                },
+              },
+              {
+                path: 'novo',
+                name: 'manutencao-nova',
+                component: ManutencaoFormPage,
+                meta: {
+                  title: 'Nova Manutenção',
+                  icon: 'add_circle_outline',
+                  requiresAuth: true,
+                },
+              },
+              {
+                path: 'editar/:id',
+                name: 'manutencao-editar',
+                component: ManutencaoFormPage,
+                meta: {
+                  title: 'Editar Manutenção',
+                  icon: 'edit',
+                  requiresAuth: true,
+                },
+              },
+            ],
           },
           {
             path: 'motoristas',

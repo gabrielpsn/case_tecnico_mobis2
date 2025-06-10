@@ -10,7 +10,9 @@ class ManutencaoRepository implements ManutencaoRepositoryInterface
 {
     public function all(): Collection
     {
-        return Manutencao::all();
+        return Manutencao::with(['veiculo' => function ($query) {
+            $query->select('id', 'placa', 'modelo');
+        }])->get();
     }
 
     public function find(int $id): ?Manutencao

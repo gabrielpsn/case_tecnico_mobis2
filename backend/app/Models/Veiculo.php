@@ -19,6 +19,9 @@ class Veiculo extends Model
         'status',
         'quilometragem',
         'motorista_id',
+        'chassi',
+        'cor',
+        'observacoes',
     ];
 
     protected $casts = [
