@@ -17,9 +17,20 @@ class MotoristaController extends Controller
 
     public function index(): JsonResponse
     {
-        $motoristas = $this->motoristaService->getAllMotoristas();
+        $perPage = request()->input('per_page', 15);
+        $filters = request()->only(['search']);
 
-        return response()->json($motoristas);
+        $motoristas = $this->motoristaService->getAllMotoristas($perPage, $filters);
+
+        return response()->json([
+            'data' => $motoristas->items(),
+            'meta' => [
+                'current_page' => $motoristas->currentPage(),
+                'last_page' => $motoristas->lastPage(),
+                'per_page' => $motoristas->perPage(),
+                'total' => $motoristas->total(),
+            ],
+        ]);
     }
 
     public function store(MotoristaRequest $request): JsonResponse

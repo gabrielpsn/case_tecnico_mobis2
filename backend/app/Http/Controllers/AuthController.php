@@ -24,8 +24,14 @@ class AuthController extends Controller
             ]);
         }
 
+        // Revoga todos os tokens anteriores
+        $user->tokens()->delete();
+
+        // Cria um novo token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
-            'token' => $user->createToken('auth_token')->plainTextToken,
+            'token' => $token,
             'user' => $user,
         ]);
     }
@@ -44,16 +50,26 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
-            'token' => $user->createToken('auth_token')->plainTextToken,
+            'token' => $token,
             'user' => $user,
         ], 201);
     }
 
     public function logout(Request $request)
     {
+        // Revoga o token atual
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logout realizado com sucesso']);
+        return response()->json([
+            'message' => 'Logout realizado com sucesso',
+        ]);
+    }
+
+    public function user(Request $request)
+    {
+        return response()->json($request->user());
     }
 }

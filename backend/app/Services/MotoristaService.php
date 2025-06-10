@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Motorista;
 use App\Repositories\Contracts\MotoristaRepositoryInterface;
 
 class MotoristaService
@@ -13,9 +14,24 @@ class MotoristaService
         $this->motoristaRepository = $motoristaRepository;
     }
 
-    public function getAllMotoristas()
+    public function getAllMotoristas($perPage = 15, $filters = [])
     {
-        return $this->motoristaRepository->all();
+        $query = Motorista::query();
+
+        // Aplicar filtros
+        if (! empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->where(function ($q) use ($search) {
+                $q->where('nome', 'like', "%{$search}%")
+                    ->orWhere('cpf', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        // Ordenação padrão
+        $query->orderBy('nome');
+
+        return $query->paginate($perPage);
     }
 
     public function getMotorista(int $id)

@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            // Depois os usuários (que dependem das funções)
+            UserSeeder::class,
+            // Em seguida, os dados de negócio
             MotoristaSeeder::class,
             VeiculoSeeder::class,
             ManutencaoSeeder::class,

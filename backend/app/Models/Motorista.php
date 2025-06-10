@@ -16,12 +16,16 @@ class Motorista extends Model
         'data_nascimento',
         'categoria_cnh',
         'telefone',
+        'email',
+        'cnh',
+        'validade_cnh',
     ];
 
     protected $dates = ['data_nascimento'];
 
     protected $casts = [
-        'data_nascimento' => 'date:Y-m-d',
+        'data_nascimento' => 'date:d/m/Y',
+        'validade_cnh' => 'date:d/m/Y',
     ];
 
     public function veiculo(): HasOne

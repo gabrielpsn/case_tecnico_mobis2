@@ -1,10 +1,5 @@
 import { defineRouter } from '#q-app/wrappers'
-import {
-  createRouter,
-  createMemoryHistory,
-  createWebHistory,
-  createWebHashHistory,
-} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes'
 
 /*
@@ -17,23 +12,12 @@ import routes from './routes'
  */
 
 export default defineRouter(function (/* { store, ssrContext } */) {
-  const createHistory = process.env.SERVER
-    ? createMemoryHistory
-    : process.env.VUE_ROUTER_MODE === 'history'
-      ? createWebHistory
-      : createWebHashHistory
-
   const Router = createRouter({
-    scrollBehavior(to, from, savedPosition) {
-      // Retorna a posição salva se existir (útil para navegação com botão voltar/avançar)
-      if (savedPosition) {
-        return savedPosition
-      }
-      // Rola para o topo da página por padrão
-      return { top: 0, behavior: 'smooth' }
-    },
+    history: createWebHistory(process.env.BASE_URL),
     routes,
-    history: createHistory(process.env.VUE_ROUTER_BASE || '/'),
+    scrollBehavior(to, from, savedPosition) {
+      return savedPosition || { top: 0 }
+    },
   })
 
   // Configura o título da página com base na rota atual

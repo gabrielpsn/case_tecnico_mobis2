@@ -196,8 +196,12 @@ function onRequest(props) {
   fetchMotoristas()
 }
 
-function openForm() {
-  router.push({ name: 'motoristas-novo' })
+function openForm(motorista = null) {
+  if (motorista) {
+    router.push({ name: 'motoristas-editar', params: { id: motorista.id } })
+  } else {
+    router.push({ name: 'motoristas-novo' })
+  }
 }
 
 function onMotoristaSaved() {

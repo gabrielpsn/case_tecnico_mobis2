@@ -94,6 +94,7 @@ const routes = [
           {
             path: 'motoristas',
             name: 'motoristas',
+            redirect: { name: 'motoristas-list' },
             meta: {
               title: 'Motoristas',
               icon: 'person',
@@ -102,10 +103,10 @@ const routes = [
             children: [
               {
                 path: '',
-                name: '',
+                name: 'motoristas-list',
                 component: MotoristaListPage,
                 meta: {
-                  title: 'Motoristas',
+                  title: 'Lista de Motoristas',
                   icon: 'person',
                   requiresAuth: true,
                 },
@@ -126,7 +127,7 @@ const routes = [
                 component: MotoristaFormPage,
                 meta: {
                   title: 'Editar Motorista',
-                  icon: 'person_edit',
+                  icon: 'edit',
                   requiresAuth: true,
                 },
               },

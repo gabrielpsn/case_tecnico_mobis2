@@ -44,13 +44,9 @@ const motoristaService = {
   async getMotorista(id) {
     try {
       const response = await api.get(`/motoristas/${id}`)
-      return response.data
+      return response
     } catch (error) {
       console.error('Erro ao buscar motorista:', error)
-      $q.notify({
-        type: 'negative',
-        message: 'Erro ao carregar os dados do motorista',
-      })
       throw error
     }
   },

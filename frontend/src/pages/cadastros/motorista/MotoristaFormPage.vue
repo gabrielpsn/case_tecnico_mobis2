@@ -146,6 +146,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 import { api } from 'src/boot/axios'
+import motoristaService from 'src/services/motorista.service'
 
 const $q = useQuasar()
 const route = useRoute()
@@ -210,8 +211,9 @@ function isValidCPF(cpf) {
 async function carregarMotorista(id) {
   try {
     loading.value = true
-    const response = await api.get(`/motoristas/${id}`)
-    form.value = response.data.data
+    const response = await motoristaService.getMotorista(id)
+    console.log(response)
+    form.value = response.data
   } catch (error) {
     console.error('Erro ao carregar motorista:', error)
     $q.notify({
