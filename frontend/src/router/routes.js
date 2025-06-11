@@ -200,14 +200,37 @@ const routes = [
             ],
           },
           {
-            path: 'telemetrias',
-            name: 'telemetrias',
-            component: TelemetryListPage,
+            path: 'telemetria',
+            name: 'telemetria',
+            redirect: { name: 'telemetria-list' },
             meta: {
-              title: 'Telemetrias',
-              icon: 'signal_cellular_4_bar',
+              title: 'Telemetria',
+              icon: 'gps_fixed',
               requiresAuth: true,
             },
+            children: [
+              {
+                path: '',
+                name: 'telemetria-list',
+                component: TelemetryListPage,
+                meta: {
+                  title: 'Monitoramento em Tempo Real',
+                  icon: 'gps_fixed',
+                  requiresAuth: true,
+                },
+              },
+              {
+                path: 'veiculo/:id',
+                name: 'telemetria-veiculo',
+                component: () => import('pages/cadastros/telemetry/TelemetryDetailPage.vue'),
+                meta: {
+                  title: 'Detalhes da Telemetria',
+                  requiresAuth: true,
+                  hideInMenu: true,
+                },
+                props: true,
+              },
+            ],
           },
         ],
       },

@@ -61,7 +61,6 @@ export default {
       { name: 'placa', label: 'Placa', field: 'placa', align: 'left', sortable: true },
       { name: 'modelo', label: 'Modelo', field: 'modelo', align: 'left', sortable: true },
       { name: 'marca', label: 'Marca', field: 'marca', align: 'left', sortable: true },
-      { name: 'ano', label: 'Ano', field: 'ano', align: 'center', sortable: true },
       { name: 'status', label: 'Status', field: 'status', align: 'center', sortable: true },
       {
         name: 'localizacao',
@@ -69,6 +68,9 @@ export default {
         field: 'localizacao',
         align: 'left',
         sortable: true,
+        format: (val) => {
+          return val.endereco
+        },
       },
       {
         name: 'ultima_atualizacao',
@@ -90,38 +92,12 @@ export default {
     const fetchVehicles = async () => {
       try {
         loading.value = true
-        // Busca os veículos
-        const { data: veiculosData } = await api.get('/veiculos')
+        // Busca a telemetria dos veículos
+        const { data } = await api.get('telemetria/veiculos/telemetry')
 
-        // Para cada veículo, busca as informações de localização e status
-        const vehiclesWithTelemetry = await Promise.all(
-          veiculosData.data.map(async (veiculo) => {
-            try {
-              // Busca localização mais recente
-              const { data: localizacao } = await api.get(`/veiculos/${veiculo.id}/localizacao`)
-              // Busca status mais recente
-              const { data: status } = await api.get(`/veiculos/${veiculo.id}/status`)
+        console.log('Dados de telemetria recebidos:', data.data)
 
-              return {
-                ...veiculo,
-                localizacao: localizacao?.endereco || 'Não disponível',
-                status: status?.status || 'Desconhecido',
-                ultima_atualizacao:
-                  status?.data_atualizacao || localizacao?.data_atualizacao || 'Nunca',
-              }
-            } catch (error) {
-              console.error(`Erro ao buscar dados do veículo ${veiculo.placa}:`, error)
-              return {
-                ...veiculo,
-                localizacao: 'Erro ao carregar',
-                status: 'Erro',
-                ultima_atualizacao: 'N/A',
-              }
-            }
-          }),
-        )
-
-        vehicles.value = vehiclesWithTelemetry
+        vehicles.value = data.data
       } catch (error) {
         console.error('Erro ao buscar veículos:', error)
         $q.notify({

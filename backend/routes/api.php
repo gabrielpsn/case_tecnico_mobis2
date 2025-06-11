@@ -26,24 +26,30 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    // Rotas para motoristas
-    Route::apiResource('motoristas', \App\Http\Controllers\MotoristaController::class);
+    // Rotas de API Resource (colocadas primeiro para evitar conflitos)
+    Route::apiResources([
+        'motoristas' => \App\Http\Controllers\MotoristaController::class,
+        'veiculos' => \App\Http\Controllers\VeiculoController::class,
+        'manutencoes' => \App\Http\Controllers\ManutencaoController::class,
+    ]);
 
-    // Rotas para veículos
-    Route::apiResource('veiculos', \App\Http\Controllers\VeiculoController::class);
-
-    // Rotas para manutenções
-    Route::apiResource('manutencoes', \App\Http\Controllers\ManutencaoController::class);
-    Route::get('veiculos/{veiculo}/manutencoes', [\App\Http\Controllers\ManutencaoController::class, 'porVeiculo']);
-
-    // Rotas para telemetria dos veículos
+    // Rotas de telemetria (agrupadas por funcionalidade)
     Route::prefix('telemetria')->group(function () {
-        // Rotas para localização do veículo
+        // Rota para buscar telemetria de todos os veículos
+        Route::get('veiculos/telemetry', [\App\Http\Controllers\VeiculoLocalizacaoController::class, 'getTelemetry']);
+
+        // Rota para buscar telemetria detalhada de um veículo específico
+        Route::get('veiculos/{id}', [\App\Http\Controllers\VeiculoLocalizacaoController::class, 'getVeiculoTelemetry']);
+
+        // Rotas de localização
         Route::post('localizacao', [\App\Http\Controllers\VeiculoLocalizacaoController::class, 'store']);
         Route::get('veiculos/{veiculoId}/localizacao', [\App\Http\Controllers\VeiculoLocalizacaoController::class, 'show']);
 
-        // Rotas para status do veículo
+        // Rotas de status
         Route::post('status', [\App\Http\Controllers\VeiculoStatusController::class, 'store']);
         Route::get('veiculos/{veiculoId}/status', [\App\Http\Controllers\VeiculoStatusController::class, 'show']);
     });
+
+    // Rotas adicionais
+    Route::get('veiculos/{veiculo}/manutencoes', [\App\Http\Controllers\ManutencaoController::class, 'porVeiculo']);
 });
